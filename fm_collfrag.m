@@ -1,9 +1,7 @@
 % fm_collfrag
-f_fp=0.10
-f_fy=1e-10
-f_cfcst=3.0/16.0
-f_g4=zeros(nv_mud,nv_mud,nv_mud);
-f_l4=zeros(nv_mud,nv_mud);
+f_fp=0.10;
+f_fy=1e-10;
+f_cfcst=3.0/16.0;
 
 for iv1=1:nv_mud
    for iv2=1:nv_mud

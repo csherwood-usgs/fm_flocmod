@@ -17,34 +17,34 @@ end
 for iv1=1:nv_mud
    for iv2=1:nv_mud
       for iv3=1:nv_mud
-         if (l_ASH)
-            f_g1_tmp(iv2,iv3,iv1)=f_g1_tmp(iv2,iv3,iv1)+f_g1_sh(iv2,iv3,iv1)*Gval;
-         end
-         if (l_ADS)
-            f_g1_tmp(iv2,iv3,iv1)=f_g1_tmp(iv2,iv3,iv1)+f_g1_ds(iv2,iv3,iv1);
-         end
+         %if (l_ASH)
+            f_g1_tmp(iv2,iv3,iv1)=f_g1_tmp(iv2,iv3,iv1)+l_ASH*f_g1_sh(iv2,iv3,iv1)*Gval;
+         %end
+         %if (l_ADS)
+            f_g1_tmp(iv2,iv3,iv1)=f_g1_tmp(iv2,iv3,iv1)+l_ADS*f_g1_ds(iv2,iv3,iv1);
+         %end
          
          tmp_g1=tmp_g1+(NNin(iv3)*(f_g1_tmp(iv2,iv3,iv1))*NNin(iv2));
          
-         if (l_COLLFRAG)
-            tmp_g4=tmp_g4+(NNin(iv3)*(f_g4(iv2,iv3,iv1)*Gval)*NNin(iv2));
-         end
+         %if (l_COLLFRAG)
+            tmp_g4=tmp_g4+l_COLLFRAG*(NNin(iv3)*(f_g4(iv2,iv3,iv1)*Gval)*NNin(iv2));
+         %end
       end
       
       tmp_g3=tmp_g3+f_g3(iv2,iv1)*NNin(iv2)*Gval^1.5;
       
-      if (l_ASH)
-         f_l1_tmp(iv2,iv1)=f_l1_tmp(iv2,iv1)+f_l1_sh(iv2,iv1)*Gval;
-      end
-      if (l_ADS)
-         f_l1_tmp(iv2,iv1)=f_l1_tmp(iv2,iv1)+f_l1_ds(iv2,iv1)*Gval;
-      end
+      %if (l_ASH)
+         f_l1_tmp(iv2,iv1)=f_l1_tmp(iv2,iv1)+l_ASH*f_l1_sh(iv2,iv1)*Gval;
+      %end
+      %if (l_ADS)
+         f_l1_tmp(iv2,iv1)=f_l1_tmp(iv2,iv1)+l_ADS*f_l1_ds(iv2,iv1)*Gval;
+      %end
       
       tmp_l1=tmp_l1+(f_l1_tmp(iv2,iv1))*NNin(iv2);
       
-      if (l_COLLFRAG)
-         tmp_l4=tmp_l4+(f_l4(iv2,iv1)*Gval)*NNin(iv2);
-      end
+      %if (l_COLLFRAG)
+         tmp_l4=tmp_l4+l_COLLFRAG*(f_l4(iv2,iv1)*Gval)*NNin(iv2);
+      %end
    end
    
    tmp_l1=tmp_l1*NNin(iv1);

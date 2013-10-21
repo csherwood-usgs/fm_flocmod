@@ -58,6 +58,8 @@ f_g1_sh = zeros(nv_mud,nv_mud,nv_mud);
 f_g1_ds = zeros(nv_mud,nv_mud,nv_mud);
 f_g3 = zeros(nv_mud,nv_mud);
 f_l3 = zeros(nv_mud);
+f_g4=zeros(nv_mud,nv_mud,nv_mud);
+f_l4=zeros(nv_mud,nv_mud);
 
 % floc kernals
 fm_flocmod_aggregation_statistics
