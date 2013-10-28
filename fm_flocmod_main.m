@@ -213,25 +213,33 @@ while (t<tend)
          f_ld90=0;
       end
    end
-   
-   %% rverney October 28th 2013
-   % Additional plots. Experimental floc diameter are the avereage floc
-   % size weighted with the projected surface aerea, as measured by CCD
-   % cameras. So the same is calculated from FLOCMOD
-   
    f_d_area_weighted=(NNin.*f_area)'*f_diam/(sum(NNin.*f_area));
-   subplot(211)
-   plot(t,f_d_area_weighted*1e6,'ob')
-   hold on
-   subplot(212)
-   plot(t,f_dt,'ob')
-   hold on
-   
-   fprintf(fid,'%f %f %f\n',t, Gval, f_d50*1e6);
+   fprintf(fid,'%f %f %f %f %f\n',...
+      t, f_dt, Gval, f_d50*1e6, f_d_area_weighted*1e6);
+ 
    t = t+dt;
 end
 fclose(fid)
 fprintf(1,'END flocmod_main\n')
+%% rverney October 28th 2013
+   % Additional plots. Experimental floc diameter are the avereage floc
+   % size weighted with the projected surface aerea, as measured by CCD
+   % cameras. So the same is calculated from FLOCMOD
+load('fm.dat')
+figure(1); clf
+   subplot(211)
+   plot(fm(:,1)./60,fm(:,5),'-k','linewidth',2)
+   hold on
+   ylabel('Floc diameter (\mum)')
+   plot(fm(:,1)./60,fm(:,4),'--b')
+   subplot(212)
+   plot(fm(:,1)./60,fm(:,2),'.k','linewidth',2)
+   hold on
+   ylabel('Time step (s)')
+   xlabel('Time (min)')
+   shg
+   
+
 
 
 

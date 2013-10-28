@@ -30,8 +30,15 @@ tstart = 0.0
 tend   = 750.0 * 60.0
 
 % size classes
+if(1)
+   np = 7;
+   D = logspace(log10(4e-6),log10(1500e-6),np)'
+f_diam = D;
+end
+if(0)
 f_diam = 1e-6 * ...
    [4.0, 6.1, 9.3, 14.2, 21.8, 33.2, 50.7, 77.5, 118.3, 180.6, 275.8, 421.2, 643.2, 982.3, 1500.0]';
+end
 
 nv_mud = length(f_diam);
 % initial concentrations
