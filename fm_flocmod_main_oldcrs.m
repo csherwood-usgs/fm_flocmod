@@ -18,14 +18,14 @@ f_ero_frac=0.0
 f_ero_nbfrag=2.
 f_ero_iv=1
 f_mneg_param=0.000
-f_collfragparam=0.00
+f_collfragparam=0.01
 f_test=1
 dfragmax=0.00003
 epsilon = 1e-8;
 % min concentration below which flocculation processes are not calculated
 f_clim=0.001
 
-dt = 10.0
+dt = 1.0
 tstart = 0.0
 tend   = 750.0 * 60.0
 
@@ -40,7 +40,6 @@ cv_wat = zeros(nv_mud,1);
 cv_wat(5)=0.093;
 
 f_vol = (pi/6.0)*f_diam.^3;
-f_area=(pi/4.0)*f_diam.^2;
 f_rho = rhoref+(rhosp-rhoref)*(f_dp0./f_diam).^(3.0-f_nf);
 f_mass = zeros(nv_mud+1,1);
 f_mass(1:nv_mud) = f_vol.*(f_rho-rhoref);
@@ -77,15 +76,11 @@ f_mass = f_mass(1:nv_mud,1);
 fid = fopen('fm.dat','w');
 t = tstart;
 nt = 0;
-
-figure
-f_dt=dt;
-
 while (t<tend)
    nt=nt+1;
    dtmin=dt;
    
-   
+   f_dt=dt;
    dttemp=0.0;
    
    cv_tmp=cv_wat; % concentration of all mud classes in one grid cell
@@ -93,7 +88,7 @@ while (t<tend)
    % TODO - fix calculation of G
    fm_Gval
    f_gval = Gval;
-   if( mod(t,600) == 0 )
+   if( mod(nt,600) == 0 )
       fprintf(1,'t, G, cvtotmud: %f %f %f\n',t,Gval,cvtotmud)
    end
    NNin=cv_tmp./f_mass;
@@ -128,7 +123,7 @@ while (t<tend)
          else
             
             if (f_dt<dt)
-               while (mneg <=f_mneg_param)
+               while (mneg <f_mneg_param)
                   
                   if (dttemp+f_dt == dt)
                      fm_comp_fsd % NNin -> NNout
@@ -169,7 +164,7 @@ while (t<tend)
             error('Simultation stopped')
          end
          
-         if (dttemp == dt); break; end
+         if (dttemp == dt) break; end
       end % loop on full dt
    end % only if cvtotmud > f_clim
    
@@ -214,26 +209,8 @@ while (t<tend)
       end
    end
    
-   %% rverney October 28th 2013
-   % Additional plots. Experimental floc diameter are the avereage floc
-   % size weighted with the projected surface aerea, as measured by CCD
-   % cameras. So the same is calculated from FLOCMOD
-   
-   f_d_area_weighted=(NNin.*f_area)'*f_diam/(sum(NNin.*f_area));
-   subplot(211)
-   plot(t,f_d_area_weighted*1e6,'ob')
-   hold on
-   subplot(212)
-   plot(t,f_dt,'ob')
-   hold on
-   
    fprintf(fid,'%f %f %f\n',t, Gval, f_d50*1e6);
    t = t+dt;
 end
 fclose(fid)
 fprintf(1,'END flocmod_main\n')
-
-
-
-
-
